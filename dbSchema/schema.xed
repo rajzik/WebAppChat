@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><Diagram version="1.0" type="POSTGRES" versionMajor="9" versionMinor="4" groupSchema="false" hide_inv="false">
+<Table id="0" name="Users" schema="" database="" background="16777165">
+<Column id="1" name="id" type="serial" length="25" nulls="false"/>
+<Column id="2" name="user_name" type="varchar" length="255" nulls="false"/>
+<Column id="3" name="first_name" type="varchar" length="255" nulls="false"/>
+<Column id="4" name="last_name" type="varchar" length="255" nulls="false"/>
+<Column id="5" name="password" type="varchar" length="255" nulls="false"/>
+<Storage name="transferTable" value="false"/>
+<Storage name="ValueCompression" value="false"/>
+<Storage name="DistributeRandom" value="false"/>
+<Storage name="TempTable" value="false"/>
+<Storage name="NoLogging" value="false"/>
+<Storage name="db2zVolatile" value="false"/>
+<Storage name="db2zRestrictOnDrop" value="false"/>
+<Storage name="AppendMode" value="false"/>
+<Storage name="WithCRCols" value="false"/>
+<Storage name="External" value="false"/>
+</Table>
+<Table id="6" name="Rooms" schema="" database="" background="16777165">
+<Column id="7" name="id" type="serial" length="25" nulls="false"/>
+<Column id="8" name="room_name" type="varchar" length="255" nulls="true"/>
+<Storage name="transferTable" value="false"/>
+<Storage name="ValueCompression" value="false"/>
+<Storage name="DistributeRandom" value="false"/>
+<Storage name="TempTable" value="false"/>
+<Storage name="NoLogging" value="false"/>
+<Storage name="db2zVolatile" value="false"/>
+<Storage name="db2zRestrictOnDrop" value="false"/>
+<Storage name="AppendMode" value="false"/>
+<Storage name="WithCRCols" value="false"/>
+<Storage name="External" value="false"/>
+</Table>
+<Constraint table="0" name="PK_Users" type="PrimKey">
+<ConstraintColumn id="1"/>
+</Constraint>
+<Constraint table="0" name="UNIQUE_Users" type="Unique">
+<ConstraintColumn id="2"/>
+</Constraint>
+<Constraint table="0" name="CHECK_Users" type="Check" condition="len(password) &gt;= 8"/>
+<Sheet name="Untitled 1" id="9" disp_at="true" disp_ph="true" disp_co="true" disp_rn="true">
+<Place id="0" visible="true">70,60,211,121</Place>
+<Place id="6" visible="true">490,80,120,60</Place>
+</Sheet>
+<Settings sheet="9" zoom="1.0"/>
+</Diagram>

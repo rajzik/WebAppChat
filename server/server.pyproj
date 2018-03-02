@@ -11,6 +11,9 @@
     <OutputPath>.</OutputPath>
     <Name>server</Name>
     <RootNamespace>server</RootNamespace>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+    <Environment>DATABASE_URL='postgres://ixperta/jan.silhan'</Environment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
