@@ -4,10 +4,9 @@ from sqlalchemy.ext.declarative import declarative_base, DeferredReflection
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 
-connectionString = os.environ['DATABASE_URL']
-# connectionString = 'postgresql://xsilhan2:$engr%@akela.mendelu.cz/xsilhan2'
+connectionString = 'postgresql://postgres:admin@localhost/webapp'
 
-engine = create_engine(connectionString, sslmode='require')
+engine = create_engine(connectionString)
 
 dbSession = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,

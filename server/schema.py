@@ -12,6 +12,9 @@ class UserType(SQLAlchemyObjectType):
     class Meta:
         model = UserModel
 
+class RoomType(SQLAlchemyObjectType):
+    class Meta:
+        model = RoomModel;
 
 """
     Actual schema where we define our requests
@@ -23,7 +26,7 @@ class QueryType(graphene.ObjectType):
     description = '...'
     users = graphene.List(UserType)
     user = graphene.Field(UserType, id = graphene.Int())
-
+    rooms = graphene.List(RoomType);
 
     def resolve_users(root, info):
         query = UserType.get_query(info)
@@ -33,6 +36,9 @@ class QueryType(graphene.ObjectType):
         query = UserType.get_query(info)
         return query.get(id)
 
+    def resolve_rooms(root, info):
+        query = RoomType.get_query(info)
+        return query.all();
 
 
 
