@@ -1,26 +1,30 @@
 
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Table, DateTime
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, aliased
 from sqlalchemy.ext.declarative import declared_attr
 from database import Base, engine
 
 
+# FIXME: All commented code is broken
 
-#class AssociationTable(Base):
-#    __tablename__ = 'Whispers'
-#    id = Column(Integer, primary_key=True)
-#    user_id1 = Column(ForeignKey('Users.id'))
-#   user_id2 = Column(ForeignKey('Users.id'))
+"""
+messagesRelation = Table('Association_messages', Base.metadata, 
+                     Column('user1_id', ForeignKey('Users.id')),
+                     Column('user2_id', ForeignKey('Users.id')))
+                     """
 
 
-class FriendsModel(Base):
-    __tablename__ = 'Friends'
+friendsRelation = Table('Friends', Base.metadata, 
+                     Column('user_id', ForeignKey('Users.id')),
+                     Column('friend_id', ForeignKey('Users.id')))
+"""
+class Messages(Base):
+    __tablename__ = 'Messages'
     id = Column(Integer, primary_key=True)
-    user_id1 = Column(ForeignKey('user.id'))
-    user_id2 = Column(ForeignKey('user.id'))
-
-
-
+    message = Column(String(1000))
+    timestamp = Column(DateTime)
+    """
+    
 
 
 class UserModel(Base):
@@ -31,25 +35,25 @@ class UserModel(Base):
     user_name = Column(String)
     is_super_user = Column(Boolean)
     password = Column(String)
-#    def _get_friends(self):
- #       return object_session(self).query(UserModel).with_parent(self).join(FriendsModel.user_id1).join(FriendsModel.user_id2).all();
-  #  friends = property(_get_friends)
-    #friends = relationship('UserModel',
-     #                      primaryjoin=remote(id),
-      #                     viewonly=True) 
-    #relationship("UserModel",
-     #                      secondary=association_table,
-      #                     primaryjoin=association_table.c.user_id1,
-       #                    secondaryjoin=association_table.c.user_id2,
-        #                   backref="left")
-
-
-
+    """
+    messages = relationship('Messages',
+                            secondary='messagesRelation',
+                            primaryjoin= id == messagesRelation.c.user1_id or id == messagesRelation.c.user2_id,
+                            order_by=Messages.timestamp,
+                            backref="Messages",
+                            lazy='dynamic')
+                            """
+    friends = relationship('UserModel',
+                          secondary=friendsRelation,
+                          primaryjoin=id == friendsRelation.c.user_id,
+                          secondaryjoin=id == friendsRelation.c.friend_id,
+                          lazy = 'dynamic')
+       
+ 
 
 room_users_association_table = Table('Groups', Base.metadata,
     Column('room_id', Integer, ForeignKey('Rooms.id')),
-    Column('user_id', Integer, ForeignKey('Users.id'))
-)
+    Column('user_id', Integer, ForeignKey('Users.id')))
 
 
 class RoomModel(Base):
