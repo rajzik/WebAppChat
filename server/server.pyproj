@@ -13,7 +13,10 @@
     <RootNamespace>server</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
-    <Environment>DATABASE_URL='postgres://ixperta/jan.silhan'</Environment>
+    <Environment>
+    </Environment>
+    <IsWindowsApplication>False</IsWindowsApplication>
+    <CommandLineArguments>runserver</CommandLineArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,16 +27,22 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="database.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="models.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="schema.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="server.py" />
+    <Compile Include="settings.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="urls.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="userModel.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="wsgi.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

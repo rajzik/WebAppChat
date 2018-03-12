@@ -1,17 +1,9 @@
-from flask import Flask
+import os
+import sys
 
-from database import dbSession
-from flask_graphql import GraphQLView
-from schema import schema
+if __name__ == "__main__":
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 
-app = Flask(__name__)
-app.debug = True
+    from django.core.management import execute_from_command_line
 
-app.add_url_rule('/graphql', view_func=GraphQLView.as_view('graphql', schema=schema, graphiql=True, context={'session': dbSession}))
-
-@app.teardown_appcontext
-def shutdown_session(exception=None):
-    dbSession.remove()
-
-if __name__ == '__main__':
-    app.run()
+    execute_from_command_line(sys.argv)

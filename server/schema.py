@@ -1,53 +1,30 @@
 
-
 import graphene
-from graphene_sqlalchemy import SQLAlchemyConnectionField, SQLAlchemyObjectType
-from models import *
 
-"""
- Description for types this will be moved to another file. so we have only schema here
-"""
-class UserType(SQLAlchemyObjectType):
-    
-    class Meta:
-        model = UserModel
+from userModel import User
 
-class RoomType(SQLAlchemyObjectType):
-    class Meta:
-        model = RoomModel;
+class UserType(graphene.ObjectType):
+    id = graphene.ID()
+    first_name = graphene.String()
+    last_name = graphene.String()
+    friends = graphene.List(lambda: UserType, description='Mostly less strange people')
+    user_name = graphene.String(description='Something you forget often')
 
-"""
-    Actual schema where we define our requests
-    every entry has to have resolver, in format of resolve_<Name of column>
-"""
+    def resolve_friends(self, args):
+        return self.friends.all()
 
 class QueryType(graphene.ObjectType):
-    name = 'Query'
-    description = '...'
-    users = graphene.List(UserType)
-    user = graphene.Field(UserType, id = graphene.Int())
-    rooms = graphene.List(RoomType);
+    all_users = graphene.List(UserType, description='A few billion people')
+    user = graphene.Field(
+        UserType,
+        id=graphene.ID(),
+        description='Just one person belonging to an ID',
+    )
 
-    def resolve_users(root, info):
-        query = UserType.get_query(info)
-        return query.all();
-    
-    def resolve_user(root, info, id):
-        query = UserType.get_query(info)
-        return query.get(id)
+    def resolve_all_user(self, context):
+        return User.objects.all()
 
-    def resolve_rooms(root, info):
-        query = RoomType.get_query(info)
-        return query.all();
+    def resolve_user(self, context, id):
+        return User.objects.get(pk=id)
 
-
-
-
-    
 schema = graphene.Schema(query=QueryType)
-
-
-"""
-TODO: Pagination maybe itll be needed
-    see: https://github.com/graphql-python/graphene/issues/469
-"""
